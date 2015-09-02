@@ -1,6 +1,7 @@
 //gameScript
 
 
+//canvas and context code
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.width = 500;
@@ -45,6 +46,17 @@ onkeyup2 = function(e) {
   e = e || event;
   KeyDownX [e.keyCode] = undefined;
 };
+
+var Player = new Sprite(canvas, '#', 30, 30, 0, 0, 'tPlayer');
+
+player.keymove = function() {
+  if (KeyDownA[RArrow] && this.x + this.crossHairSize < canvas.width){
+    this.x += 10;
+  } //endif
+  if (KeyDownA[LArrow] && this.x - this.crossHairSize > 0){
+    this.x -= 10;
+  } //endif
+} //end player.keymove()
 
 function Blob(){
         var tBlob = new Sprite(canvas, '#', 20, 20, 0, 0, 'tBlob');
@@ -127,6 +139,24 @@ function fireBullet () {
            // Make bullet visible.
            th.show();
            return;
-        }
-    }
-}
+        } //endif
+    } //end for
+} //end fireBullet()
+
+
+function init() {
+  makeBullets();
+  makeBlobs();
+  Player.draw();
+} //end init()
+
+function update() {
+  Player.update();
+  updateBullets();
+  player.keymove();
+} //end update()
+
+//FPS interval timer
+setInterval(update, 1000/FPS);
+
+// End Game Code
